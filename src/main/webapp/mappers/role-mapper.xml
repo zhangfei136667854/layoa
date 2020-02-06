@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.situ.layoa.role.dao.RoleDao">
+<insert id="save"  parameterType="Role" useGeneratedKeys="true" keyProperty="rowId" keyColumn="ROW_ID">
+INSERT INTO T_ROLE(ACTIVE_FLAG,CREATE_BY,CREATE_DATE,ROLE_NAME,ROLE_KIND,ROLE_INFO,ROLE_CODE)
+VALUES (#{activeFlag},#{createBy},#{createDate},#{roleName},#{roleKind},#{roleInfo},#{roleCode})
+</insert>
+</mapper>
