@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.situ.layoa.user.dao.UserDao">
+	<sql id="user_base_column">
+		USER_KIND,USER_NAME,USER_CODE,USER_PASS,USER_PHONE,IS_LOCK,LAST_LOGIN_IP,LAST_LOGIN_DATE,ACTIVE_FLAG,CREATE_BY, CREATE_DATE
+	</sql>
+	<sql id="user_base_select">
+		SELECT ROW_ID,<include refid="user_base_column"/>, UPDATE_BY,UPDATE_DATE FROM TB_USER WHERE ACTIVE_FLAG = 1
+	</sql>
+	<insert id="save" parameterType="User" useGeneratedKeys="true" keyProperty="rowId" keyColumn="ROW_ID">
+		INSERT INTO TB_USER(<include refid="user_base_column"/>)
+		VALUES(#{userKind},#{userName},#{userCode},#{userPass},#{userPhone},#{isLock},#{lastLoginIP},#{lastLoginDate},#{activeFlag},#{createBy},#{createDate})
+	</insert>
+	<insert id="update" parameterType="User">
+		UPDATE TB_USER 
+		<set>
+			<if test="userKind!=null">
+			USER_KIND = #{userKind},
+			</if>
+			<if test="userName!=null">
+			USER_NAME = #{userName},
+			</if>
+			<if test="userCode!=null">
+			USER_CODE = #{userCode},
+			</if>
+			<if test="userPass!=null">
+			USER_PASS = #{userPass},
+			</if>
+			<if test="userPhone!=null">
+			USER_PHONE = #{userPhone},
+			</if>
+			<if test="isLock!=null">
+			IS_LOCK = #{isLock},
+			</if>
+			<if test="lastLoginIP!=null">
+			LAST_LOGIN_IP = #{lastLoginIP},
+			</if>
+			<if test="lastLoginDate!=null">
+			LAST_LOGIN_DATE = #{lastLoginDate},
+			</if>
+		</set>
+		WHERE ROW_ID = #{rowId}
+	</insert>
+	<delete id="delete">
+		DELETE FROM TB_USER WHERE ROW_ID = #{rowId}
+	</delete>
+	<select id="find" resultType="User">
+		<include refid="user_base_select"/>
+	</select>
+	<select id="get" resultType="User">
+		<include refid="user_base_select"/> AND ROW_ID = #{rowId}
+	</select>
+	<select id="findByCodeAndPass" resultType="User">
+		<include refid="user_base_select"/> AND USER_CODE = #{userCode} AND USER_PASS=#{userPass}
+	</select>
+	<select id="findByCodeAndRowId" resultType="User">
+		<include refid="user_base_select"/> AND USER_CODE = #{userCode} AND ROW_ID=#{rowId}
+	</select>
+	<select id="findByCode" resultType="User">
+		<include refid="user_base_select"/> AND USER_CODE = #{userCode}
+	</select>
+	<update id="update4Lock">
+		UPDATE TB_USER SET IS_LOCK = #{isLock} WHERE ROW_ID = #{rowId}
+	</update>
+	<update id="updatePass">
+		UPDATE TB_USER SET USER_PASS = #{userPass} WHERE USER_CODE = #{userCode}
+	</update>
+	<select id="count" resultType="java.lang.Integer">
+	SELECT COUNT(ROW_ID) FROM TB_USER WHERE ACTIVE_FLAG = 1
+	</select>
+</mapper>
