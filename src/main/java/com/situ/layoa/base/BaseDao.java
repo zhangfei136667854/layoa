@@ -22,14 +22,14 @@ public interface BaseDao<T> {
 	 * 
 	 * @param t
 	 */
-	void update(T t);
+	Long update(T t);
 
 	/**
 	 * 删除对象
 	 * 
 	 * @param rowId
 	 */
-	void delete(Long rowId);
+Long delete(Long rowId);
 
 	/**
 	 * 根据ID查询对象

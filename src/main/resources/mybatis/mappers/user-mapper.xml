@@ -25,27 +25,23 @@
 			<if test="userCode!=null">
 			USER_CODE = #{userCode},
 			</if>
-			<if test="userPass!=null">
-			USER_PASS = #{userPass},
-			</if>
+			
 			<if test="userPhone!=null">
 			USER_PHONE = #{userPhone},
 			</if>
-			<if test="isLock!=null">
+			<!-- <if test="isLock!=null">
 			IS_LOCK = #{isLock},
-			</if>
-			<if test="lastLoginIP!=null">
+			</if> -->
+			<!-- <if test="lastLoginIP!=null">
 			LAST_LOGIN_IP = #{lastLoginIP},
-			</if>
-			<if test="lastLoginDate!=null">
+			</if> -->
+		<!-- 	<if test="lastLoginDate!=null">
 			LAST_LOGIN_DATE = #{lastLoginDate},
-			</if>
+			</if> -->
 		</set>
 		WHERE ROW_ID = #{rowId}
 	</insert>
-	<delete id="delete">
-		DELETE FROM TB_USER WHERE ROW_ID = #{rowId}
-	</delete>
+	
 	<select id="find" resultType="User">
 		<include refid="user_base_select"/>
 	</select>
@@ -70,4 +66,7 @@
 	<select id="count" resultType="java.lang.Integer">
 	SELECT COUNT(ROW_ID) FROM TB_USER WHERE ACTIVE_FLAG = 1
 	</select>
+	<update id="delete" parameterType="java.lang.Long">
+	UPDATE TB_USER SET ACTIVE_FLAG = 0  WHERE ROW_ID=#{rowId}
+	</update>
 </mapper>

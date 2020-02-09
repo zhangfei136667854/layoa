@@ -93,6 +93,13 @@ public class User extends BaseClass implements Serializable {
 		this.lastLoginDate = lastLoginDate;
 	}
 
+	@Override
+	public String toString() {
+		return "User [userKind=" + userKind + ", userName=" + userName + ", userCode=" + userCode + ", userPass="
+				+ userPass + ", userPhone=" + userPhone + ", isLock=" + isLock + ", lastLoginIP=" + lastLoginIP
+				+ ", lastLoginDate=" + lastLoginDate + "]";
+	}
+
 	
 	
 }

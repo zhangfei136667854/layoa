@@ -19,4 +19,12 @@ public interface UserService {
 	Integer doUserLock(Long rowId, Integer isLock);
 	
 	Integer getCount();
+
+	Long doDelete(Long rowId);
+
+	User doGet(Long rowId);
+
+	Long doUpdata(User user);
+
+	Object checkByUserCode(String userCode);
 }

@@ -9,6 +9,7 @@
  <link rel="stylesheet" href="assert/layui/css/layui.css">
 </head>
 <body>
+<button type="button"  class="layui-btn " id="btn_add" >新增</button>
 <table id="demo" lay-filter="user_table"></table>
 <script type="text/html" id="roleKindTpl">
 {{# if(d.userKind ==1){}}
@@ -24,13 +25,17 @@
 </body>
 <script type="text/javascript" src="assert/layui/layui.js"></script>
 <script type="text/javascript">
-layui.use('table',function(){
+layui.use(['table','form','layer'],function(){
+	var $ = layui.$;
+	var form = layui.form ;
 	var table = layui.table;
+	var layer = layui.layer;
 	  table.render({
 		    elem: '#demo'
 		    ,height: 312//设置高度
-		    ,url: 'user/find' //数据接口
+		    ,url: 'user' //数据接口
 		    ,page: true //开启分页
+		    //where:加除了分页外的额外数据（所条件查询）
 		    ,cols: [[ //表头
 		      {field: 'rowId', title: 'ID', width:80, sort: true, fixed: 'left'}
 		      ,{field: 'userName', title: '用户名称', width:180}
@@ -42,19 +47,47 @@ layui.use('table',function(){
 		     
 		    ]]
 		  });
+	  
 	  table.on('tool(user_table)',function(obj){
 		  var data = obj.data ;
 		  console.log(data);
 		  var layEvent = obj.event;
 		  switch(layEvent){
 		  case "edit":
-			  console.log("执行修改");
+			 $.ajax({
+				 url:"user/get/"+data.rowId,
+				 type:"get",
+				 success:function(htmlData){
+					 layer.open({
+						 type:1,
+						 title:"用户修改",
+						 area:"800px",
+						 content:htmlData,
+						 success:function(){
+							 form.render(null,"form_add_edit");
+							 
+						 }
+					 });
+					 
+					 
+				 }
+			 });
 			  break;
 		  case "delete":
-			  if(layer.confirm("你确定要删除吗?")){
+			  layer.confirm("你确定要删除吗?",function(index){
+				
+				  $.ajax({
+					  url:"user/"+data.rowId,
+					  type:'delete',
+					  success:function(result){
+						  if(result){
+							  layer.close(index);
+							  table.reload("demo");
+						  }
+					  }
+				  });
 				  
-				  
-			  }
+			  });
 			  break;
 		   default:
 			   break;
@@ -62,6 +95,28 @@ layui.use('table',function(){
 			  
 		  }
 	  });
+	  //绑定新增按钮
+	  $("#btn_add").on('click',function(){
+		  $.ajax({
+			  url:"user/goadd",
+			  success:function(htmlData){
+				  layer.open({
+						 type:1,
+						 title:"新增用户",
+						 area:'800px',
+						 content:htmlData ,
+						 //重新渲染
+						 success:function(){
+							 form.render(null,'form_add_edit');
+						 }
+					 });
+				  
+			  }
+		  });
+		 
+		  
+	  });
+	
 		  
 		});
 

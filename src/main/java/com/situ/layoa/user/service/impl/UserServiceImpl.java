@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService {
 		if (userPass != null) {//避免空指针错误
 			user.setUserPass(MD5Utils.encode(userPass));
 		}
-		user.setUserKind(User.USER_KIND_ADMIN);
+		user.setLastLoginIP("1:1:1:1:1:1");
 		user.setIsLock(User.IS_LOCK_NO);
 		user.setActiveFlag(1);
 		user.setCreateBy(ConfigUtils.SYS);
@@ -102,6 +102,30 @@ public class UserServiceImpl implements UserService {
 	public Integer getCount() {
 		// TODO Auto-generated method stub
 		return userDao.count();
+	}
+
+	@Override
+	public Long doDelete(Long rowId) {
+		// TODO Auto-generated method stub
+		return userDao.delete(rowId);
+	}
+
+	@Override
+	public User doGet(Long rowId) {
+		// TODO Auto-generated method stub
+		return userDao.get(rowId);
+	}
+
+	@Override
+	public Long doUpdata(User user) {
+		// TODO Auto-generated method stub
+		return userDao.update(user);
+	}
+
+	@Override
+	public Object checkByUserCode(String userCode) {
+		// TODO Auto-generated method stub
+		return userDao.findByCode(userCode);
 	}
 
 }
