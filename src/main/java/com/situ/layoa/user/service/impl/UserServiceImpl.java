@@ -11,10 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.situ.layoa.base.FieldParam;
+import com.situ.layoa.commons.LayuiResult;
 import com.situ.layoa.user.dao.UserDao;
 import com.situ.layoa.user.domain.User;
 import com.situ.layoa.user.service.UserService;
 import com.situ.layoa.util.ConfigUtils;
+import com.situ.layoa.util.DAOUtils;
 import com.situ.layoa.util.JSONUtils;
 import com.situ.layoa.util.MD5Utils;
 
@@ -126,6 +128,14 @@ public class UserServiceImpl implements UserService {
 	public Object checkByUserCode(String userCode) {
 		// TODO Auto-generated method stub
 		return userDao.findByCode(userCode);
+	}
+
+	@Override
+	public LayuiResult findUserByPage(Integer page, Integer limit, User user) {
+User user1 =DAOUtils.buildSearchParam(user);
+Integer dataCount = userDao.count();
+List<User> userList =userDao.findByPage(DAOUtils.buildPagination(page, limit),user1);
+		return new LayuiResult("", userList, 0, dataCount) ;
 	}
 
 }

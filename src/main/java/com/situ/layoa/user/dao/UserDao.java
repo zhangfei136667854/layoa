@@ -1,9 +1,12 @@
 package com.situ.layoa.user.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.situ.layoa.base.BaseDao;
+import com.situ.layoa.commons.Pagination;
 import com.situ.layoa.user.domain.User;
 
 @Repository
@@ -26,4 +29,6 @@ public interface UserDao extends BaseDao<User> {
 	void updatePass(@Param("userCode") String userCode, @Param("userPass") String userPass);
 
 	Integer count();
+
+	List<User> findByPage(@Param("pagination") Pagination buildPagination,@Param("user") User user1);
 }

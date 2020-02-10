@@ -3,6 +3,7 @@ package com.situ.layoa.user.service;
 import java.util.List;
 
 import com.situ.layoa.base.FieldParam;
+import com.situ.layoa.commons.LayuiResult;
 import com.situ.layoa.user.domain.User;
 
 public interface UserService {
@@ -27,4 +28,6 @@ public interface UserService {
 	Long doUpdata(User user);
 
 	Object checkByUserCode(String userCode);
+
+	LayuiResult findUserByPage(Integer page, Integer limit, User user);
 }

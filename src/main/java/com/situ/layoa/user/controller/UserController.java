@@ -70,13 +70,13 @@ public class UserController implements Serializable {
 	 * this.userService.doUserLock(rowId, isLock); }
 	 */
 	@GetMapping("/{page}/{limit}")
-	public LayuiResult doFind(@PathVariable Integer page,@PathVariable Integer limit) {
+	public LayuiResult doFind(@PathVariable Integer page,@PathVariable Integer limit,User user) {
 		// 查询表中的所有数据
-		Integer count = userService.getCount();
+		//Integer count = userService.getCount();
 		// 分页查询数据
-		List<User> userList = userService.findAllUser();
+		//List<User> userList = userService.findAllUser();
 
-		return new LayuiResult("", userList, 0, count);
+		return userService.findUserByPage(page,limit,user);
 
 	}
 
@@ -86,7 +86,7 @@ public class UserController implements Serializable {
 		return modelAndView;
 	}
 
-	@PostMapping("/addUser")
+	@PostMapping
 	public Long doAddUser(User user) {
 		
 		return userService.addUser(user);
@@ -97,10 +97,10 @@ public class UserController implements Serializable {
 		return userService.doDelete(rowId);
 	}
 	@GetMapping("/get/{rowId}")
-	public ModelAndView doGet(ModelAndView modelAndView,@PathVariable Long rowId) {
-		modelAndView.addObject("user",userService.doGet(rowId));
-		modelAndView.setViewName("user_add_edit");
-		return modelAndView;
+	public User doGet(@PathVariable Long rowId) {
+		
+		
+		return userService.doGet(rowId);
 	}
 	@PutMapping
 	public Long doUpdata(User user) {

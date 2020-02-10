@@ -69,4 +69,18 @@
 	<update id="delete" parameterType="java.lang.Long">
 	UPDATE TB_USER SET ACTIVE_FLAG = 0  WHERE ROW_ID=#{rowId}
 	</update>
+	
+	<select id="findByPage" resultType="User">
+	<include refid="user_base_select"/>
+	<if test="user.userKind!=null">
+	AND USER_KIND=#{user.userKind}
+	</if>
+	<if test="user.userName!=null">
+	AND USER_NAME=#{user.userName}
+	</if>
+	<if test="user.userCode!=null">
+	AND USER_CODE=#{user.userCode}
+	</if>
+	LIMIT #{pagination.firstResult},#{pagination.maxResult}
+	</select>
 </mapper>
